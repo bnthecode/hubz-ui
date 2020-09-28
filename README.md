@@ -1,6 +1,6 @@
 # hubz-ui
 
-## Usage
+## usage
 
 ```bash
  cd hubz-ui
