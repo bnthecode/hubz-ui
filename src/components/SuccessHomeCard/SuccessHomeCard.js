@@ -1,153 +1,239 @@
 import React from "react";
-import { Card, Typography, Grid, Slide } from "@material-ui/core";
-import { connect } from "react-redux";
+import {
+  Card,
+  Typography,
+  Grid,
+  Slide,
+  Fade,
+  CardContent,
+} from "@material-ui/core";
+
 import { makeStyles } from "@material-ui/core/styles";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheck } from "@fortawesome/free-solid-svg-icons";
+import { faCheck, faTimes } from "@fortawesome/free-solid-svg-icons";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import Paper from "@material-ui/core/Paper";
+import { green, red } from "@material-ui/core/colors";
+import ProfileSetup from "../ProfileSetup/ProfileSetup";
+import AccountSetup from "../AccountSetup/AccountSetup";
+import HomeDriveSetup from "../HomeDriveSetup/HomeDriveSetup";
+import UserSetup from "../UserSetup/UserSetup";
 import BaseButton from "../BaseButton/BaseButton";
+
 const useStyles = makeStyles((theme) => ({
-  dialog: {
-    height: "50%",
-    width: "50%",
+  formControl: {
+    width: "100%",
   },
-  displayName: {
-    fontSize: 16,
-    fontWeight: 600,
+  root: {
+    width: "100%",
+    "& .MuiOutlinedInput-input": {
+      color: "white",
+    },
+    "& .MuiInputLabel-root": {
+      color: theme.palette.primary.contrastText,
+    },
+    "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
+      borderColor: "white",
+    },
+    "& .MuiList .MuiMenu-list .MuiList-padding": {
+      paddingBottom: 0,
+    },
   },
   card: {
-    backgroundColor: theme.palette.primary.light,
+    backgroundColor: theme.palette.primary.main,
     padding: 10,
-    height: "100%",
+    height: 600,
   },
   title: {
     fontFamily: "Roboto",
     fontWeight: 600,
     textAlign: "center",
-    color: theme.palette.primary.contrastText,
+    color: "white",
     fontSize: 38,
   },
   icon: {
+    color: theme.palette.secondary.light,
+
+    fontSize: 200,
+  },
+  dropdownIcon: {
     color: theme.palette.primary.contrastText,
-    fontSize: 40,
   },
   backdrop: {
     backgroundColor: "rgba(100, 100, 100, 0.8)",
   },
-  userIcon: {
-    fontSize: 40,
-    color: "#757575",
-  },
-  homeIcon: {
-    opacity: 1,
-    fontSize: 40,
-    color: "#757575",
+  table: {
+    width: "100%",
+    backgroundColor: theme.palette.primary.main,
+    border: `1px solid ${theme.palette.primary.main}`,
   },
   subtitle: {
+    color: "white",
     textAlign: "center",
-    color: theme.palette.primary.contrastText,
+
     fontSize: 16,
     fontWeight: 600,
   },
-  formBtn: {
+  helperTexts: {
+    color: "white",
+    fontSize: 14,
+    marginBottom: 24,
+  },
+
+  formField: {
+    color: "red",
+    width: 240,
+  },
+
+  helperTextLink: {
+    textDecoration: "none",
     color: theme.palette.primary.contrastText,
-    position: "fixed",
-    border: `1px solid ${theme.palette.primary.contrastText}`,
-    bottom: "calc(25% + 10px)",
+  },
+  formContainer: {
+    display: "flex",
+    justifyContent: "space-between",
+  },
+  formTitle: {
+    color: "red",
+  },
+  formIcon: {
+    fontSize: 18,
+
+    color: theme.palette.primary.contrastText,
+  },
+  selected: {
+    color: "red",
+  },
+  homeItemBtn: {
+    height: 60,
+    "&:hover": {
+      backgroundColor: theme.palette.primary.main,
+    },
+    width: "100%",
+    textAlign: "left",
+    textTransform: "none",
+  },
+  tableHead: {
+    fontSize: 12,
+    borderBottom: `1px solid ${theme.palette.primary.main}`,
+    color: "white",
+  },
+  tableCell: {
+    cursor: "pointer",
+    borderTop: `1px solid ${theme.palette.primary.main}`,
+    borderBottom: `1px solid ${theme.palette.primary.main}`,
   },
 }));
-const SuccessHomeCard = ({ history, next, user }) => {
+
+const CreateHomeCard = () => {
   const classes = useStyles();
 
-  const goToDashboard = async () => {
-    history.push(`/${user.username}/dashboard`);
+  const [selectedItem, setSelectedItem] = React.useState({ key: "profile" });
+
+  const getItemText = () => {
+    switch (selectedItem.key) {
+      case "profile":
+        return <ProfileSetup setUpHandler={() => alert("profile")} />;
+      case "accounts":
+        return <AccountSetup setUpHandler={() => alert("accounts")} />;
+      case "home_drive":
+        return <HomeDriveSetup setUpHandler={() => alert("home drive")} />;
+      case "home_users":
+        return <UserSetup setUpHandler={() => alert("users")} />;
+      default:
+        return "";
+    }
   };
-  const setUpProfile = async () => {
-    history.push(`${next}/update-profile`);
-  };
+
+  const actionItems = [
+    { label: "Profile", key: "profile", completed: false },
+    { label: "Accounts", key: "accounts", completed: false },
+    { label: "Home Drive", key: "home_drive", completed: true },
+    { label: "Users", key: "home_users", completed: false },
+  ];
 
   return (
     <Slide in direction="left">
-      <Card className={classes.card}>
-        <Typography className={classes.title}>
-          {" "}
-          <FontAwesomeIcon
-            className={classes.icon}
-            icon={faCheck}
-          /> Success!{" "}
-        </Typography>
-        <Typography className={classes.subtitle}> Set up profile </Typography>
-        <Grid style={{ height: 260 }} container>
-          <Typography className={classes.subtitle}>
-            {" "}
-            really struggling here...? WHAT DO I PUT{" "}
-          </Typography>
-          <Grid item xs={6}>
-            {/* <svg height="100%" width="100%">
-                        <svg style={{ border: '1px solid orange' }} width="20%" height="50%" viewBox="0 0 200 200">
-                            <g>
-                                <circle fill="#F4F4F9" cx="150" cy="15" r="30" />
-                                <circle fill="#B8DBD9" cx="140" cy="60" r="20" />
-                                <circle fill="#a1a1a1" cx="120" cy="80" r="10" />
-                                <rect fill="#8C5E58" width="20" height="50" x="110" y="90" />
-                                <polygon fill="#6B6570" points="100,100 150,150 50,150" />
-                                <rect fill="#2CEAA3" width="200" height="10" x="0" y="190" />
-                                <rect fill="#8C5E58" width="80" height="50" x="60" y="150" />
-                                <rect fill="#0D1F22" width="20" height="30" x="100" y="170" />
-                            </g>
-                        </svg>
-                        <text x={0} y={110} stroke="#757575" style={{ fontSize: 12 }}>{home.home_name}</text>
-
-                        <line x1={30} x2={30} y1={120} y2={400} color="#757575" stroke="#757575" strokeWidth={2}></line>
-                        <text x={100} y={138} stroke="#757575" style={{ fontSize: 12 }}>users</text>
-                        <line x1={30} x2={200} y1={140} y2={140} color="#757575" stroke="#757575" strokeWidth={2}></line>
-                        <text x={100} y={178} stroke="#eee" style={{ fontSize: 12 }}>accounts</text>
-                        <line x1={30} x2={200} y1={180} y2={180} color="#757575" stroke="#757575" strokeWidth={2}></line>
-                        <text x={100} y={218} stroke="#eee" style={{ fontSize: 12 }}>calendar</text>
-                        <line x1={30} x2={200} y1={220} y2={220} color="#757575" stroke="#757575" strokeWidth={2}></line>
-
-                        <circle cx="240" cy="140" r="18" fill="#2ecc71" />
-                        <text  x={240} y={140} alignment-baseline="central" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#fff">{getCapitalLetter(user.last_name).slice(0, 1)}</text>
-                        {/* <text x={30} y={400} stroke="#757575" style={{ fontSize: 12 }}>{user.first_name}</text> */}
-            {/* </svg> */}
-
-            {/* <Typography className={classes.displayName}>
-                        Name: {`${getCapitalLetter(user.last_name)}, ${getCapitalLetter(user.first_name)}`}
-
-                    </Typography>
-                    <Typography className={classes.displayName}>
-                        Home: {`${getCapitalLetter(home.home_name)}`}
-
-                    </Typography> */}
+      <Card elevation={24} className={classes.card}>
+        <CardContent style={{ padding: 24 }}>
+          <Typography>Finish setting up your home</Typography>
+          <Grid style={{ marginTop: "36px" }} container>
+            <Grid item xs={5}>
+              <TableContainer elevation={24} component={Paper}>
+                <Table className={classes.table} aria-label="simple table">
+                  <TableHead>
+                    <TableRow className={classes.tableRow}>
+                      <TableCell className={classes.tableHead} />
+                      <TableCell className={classes.tableHead} align="right">
+                        completed
+                      </TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {actionItems.map((field) => (
+                      <TableRow key={field.key}>
+                        <TableCell
+                          onClick={() => setSelectedItem(field)}
+                          className={classes.tableCell}
+                        >
+                          <Typography
+                            style={{
+                              fontWeight: 600,
+                              color:
+                                selectedItem.key === field.key
+                                  ? "#FDD835"
+                                  : "white",
+                            }}
+                          >
+                            {field.label}
+                          </Typography>
+                        </TableCell>
+                        <TableCell
+                          className={classes.tableCell}
+                          align="right"
+                          component="th"
+                          scope="row"
+                        >
+                          <Fade in timeout={1000}>
+                            <FontAwesomeIcon
+                              style={{
+                                color: field.completed ? green[400] : red[400],
+                              }}
+                              icon={field.completed ? faCheck : faTimes}
+                            ></FontAwesomeIcon>
+                          </Fade>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </Grid>
+            <Grid item xs={1}></Grid>
+            <Grid item xs={6}>
+              {getItemText(selectedItem)}
+            </Grid>
           </Grid>
-        </Grid>
-
-        <div style={{ display: "flex", justifyContent: "flex-start" }}>
-          <BaseButton
-            onClick={goToDashboard}
-            className={classes.formBtn}
-          >
-            set up later
-          </BaseButton>
-        </div>
-
-        <div style={{ display: "flex", justifyContent: "flex-end" }}>
-          <BaseButton
-            onClick={setUpProfile}
-            variant="outlined"
-            className={classes.formBtn}
-          >
-            set up profile
-          </BaseButton>
-        </div>
+        </CardContent>
+        <BaseButton
+          style={{
+            textTransform: "none",
+            position: "absolute",
+            right: 10,
+            bottom: 10,
+          }}
+        >
+          Skip all
+        </BaseButton>
       </Card>
+      {/* { formHelperText } */}
     </Slide>
   );
 };
 
-const mapStateToProps = (state) => ({
-  user: state.auth.user,
-});
-
-const mapDispatchToProps = (dispatch) => ({});
-
-export default connect(mapStateToProps, mapDispatchToProps)(SuccessHomeCard);
+export default CreateHomeCard;

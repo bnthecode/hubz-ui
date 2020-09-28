@@ -4,7 +4,7 @@ import {
   BrowserRouter,
   Redirect,
   Route,
-  withRouter
+  withRouter,
 } from "react-router-dom";
 import history from "./services/history";
 import { connect } from "react-redux";
@@ -27,25 +27,25 @@ const PrivateRoute = ({ component: Component, user, ...rest }) => {
     <Route
       {...rest}
       render={(props) =>
-        token && token.length ? (
-          <Component {...props} />
-        ) : (
-            <Redirect to="/" />
-          )
+        token && token.length ? <Component {...props} /> : <Redirect to="/" />
       }
     />
   );
 };
 
 const App = ({ user, login, signUp, ui, resetNotification }) => {
-
   return (
     <div style={{ backgroundColor: "#eee", height: "100vh" }}>
       <Router history={history}>
         <BrowserRouter>
           <AppNavigationBar />
-          <Route exact path="/" render={(props) => 
-          <Landing {...props} user={user} login={login} signUp={signUp} />} />
+          <Route
+            exact
+            path="/"
+            render={(props) => (
+              <Landing {...props} user={user} login={login} signUp={signUp} />
+            )}
+          />
           <Route exact path="/about" component={About} />
           <Route exact path="/pricing" component={Pricing} />
           <Route exact path="/explore" component={Explore} />
@@ -59,7 +59,8 @@ const App = ({ user, login, signUp, ui, resetNotification }) => {
       </Router>
       <Notifications
         notification={ui.notification}
-        resetNotification={resetNotification} />
+        resetNotification={resetNotification}
+      />
       <RootAppLoader appLoading={ui.appLoading} />
     </div>
   );

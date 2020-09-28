@@ -4,15 +4,15 @@ import { store } from "../../index";
 import { setNotification } from "../../redux/actions/uiActions";
 
 const { node_api_base_url } = config;
-const baseErrorMessage = { 
-    content: "Unkown error has occured",
-    info: '',
-}
+const baseErrorMessage = {
+  content: "Unkown error has occured",
+  info: "",
+};
 
 const buildErrorObject = (apiError, error) => ({
   ...(apiError
-    ? apiError.message || { ...baseErrorMessage, info: error.message}
-    : { ...baseErrorMessage, info: error.message})
+    ? apiError.message || { ...baseErrorMessage, info: error.message }
+    : { ...baseErrorMessage, info: error.message }),
 });
 
 const setNotificationObj = (err, type) => {

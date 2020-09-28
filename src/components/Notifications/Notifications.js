@@ -5,23 +5,22 @@ import { Typography, Grid, makeStyles } from "@material-ui/core";
 import { cssTransition } from "react-toastify";
 
 const useStyles = makeStyles((theme) => ({
-  '.Toastify__progress-bar':{
-    backgroundColor: 'blue'
+  ".Toastify__progress-bar": {
+    backgroundColor: "blue",
   },
-  '.Toastify__progress-bar--animated': {
-    backgroundColor: 'blue'
+  ".Toastify__progress-bar--animated": {
+    backgroundColor: "blue",
   },
-  '.Toastify__progress-bar--controlled': {
-    backgroundColor: 'blue'
+  ".Toastify__progress-bar--controlled": {
+    backgroundColor: "blue",
   },
-  '.Toastify__progress-bar--rtl': {
-    backgroundColor: 'blue'
+  ".Toastify__progress-bar--rtl": {
+    backgroundColor: "blue",
   },
-  '.Toastify__progress-bar--default':{
-    color: 'red'
+  ".Toastify__progress-bar--default": {
+    color: "red",
   },
-  '.Toastify__progress-bar--dark' :{
-  },
+  ".Toastify__progress-bar--dark": {},
   toast: {
     fontSize: 12,
     borderRadius: 4,
@@ -38,17 +37,17 @@ const Notifications = ({
   const classes = useStyles();
 
   const Msg = () => (
-    <Grid style={{ margin: 8}} container>
-      <Grid item xs={12}> 
-      <Typography style={{ fontSize: 14, fontWeight: 600, color: "#eee" }}>
-        Message: {message.content}
-      </Typography>
+    <Grid style={{ margin: 8 }} container>
+      <Grid item xs={12}>
+        <Typography style={{ fontSize: 14, fontWeight: 600, color: "#eee" }}>
+          Message: {message.content}
+        </Typography>
       </Grid>
       {message.info ? (
-            <Grid item xs={12}> 
-        <Typography style={{ fontSize: 18, fontWeight: 700, color: "#eee" }}>
-          Info: {message.info}
-        </Typography>
+        <Grid item xs={12}>
+          <Typography style={{ fontSize: 18, fontWeight: 700, color: "#eee" }}>
+            Info: {message.info}
+          </Typography>
         </Grid>
       ) : (
         ""
@@ -82,7 +81,7 @@ const Notifications = ({
   return (
     <ToastContainer
       style={{ width: "400px", padding: 10 }}
-      progressClassName={ classes.progress }
+      progressClassName={classes.progress}
       autoClose={4000}
       hideProgressBar={true}
       newestOnTop={false}

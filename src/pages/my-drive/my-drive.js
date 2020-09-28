@@ -6,7 +6,8 @@ import {
   Slide,
   Paper,
   Avatar,
-  Divider, Fade
+  Divider,
+  Fade,
 } from "@material-ui/core";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
@@ -18,7 +19,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { truncateString } from "../../utilities/ui/formatters";
 import { isEmpty } from "lodash";
-import { createFileWorkflow, initDrivePageWorkflow, createFolderWorkflow, selectDriveItemWorkflow } from "../../workflows/drive-workflow";
+import {
+  createFileWorkflow,
+  initDrivePageWorkflow,
+  createFolderWorkflow,
+  selectDriveItemWorkflow,
+} from "../../workflows/drive-workflow";
 import { connect } from "react-redux";
 import BaseButton from "../../components/BaseButton/BaseButton";
 
@@ -43,7 +49,7 @@ const styles = (theme) => ({
     transition: "all .5s",
     minHeight: 200,
     cursor: "pointer",
-    textAlign: 'center'
+    textAlign: "center",
     // boxShadow: `4px 10px 6px ${theme.palette.primary.main}`,
   },
   recentItem: {
@@ -59,9 +65,9 @@ const styles = (theme) => ({
     marginTop: 36,
     padding: 24,
     minHeight: 260,
-    overflow: 'hidden',
+    overflow: "hidden",
     boxShadow: `0px 0px 6px ${theme.palette.primary.contrastText}`,
-    position: 'relative',
+    position: "relative",
   },
   recentIconAdd: {
     color: theme.palette.primary.contrastText,
@@ -76,7 +82,7 @@ const styles = (theme) => ({
     height: 500,
     borderRadius: "10px",
     transition: "all .5s",
-    position: 'relative',
+    position: "relative",
     cursor: "pointer",
   },
   cardTitle: {
@@ -87,19 +93,19 @@ const styles = (theme) => ({
     transition: "translate .5s",
   },
   pathWrapper: {
-    position: 'absolute',
+    position: "absolute",
     paddingLeft: 18,
     left: 0,
     bottom: 0,
-    width: 'calc(100% - 18px)',
+    width: "calc(100% - 18px)",
     height: 32,
-    borderRadius: '0 0 2px 2px',
+    borderRadius: "0 0 2px 2px",
     backgroundColor: theme.palette.primary.dark,
   },
   subtitle: {
     color: "white",
     fontWeight: 600,
-    marginTop: 32
+    marginTop: 32,
   },
   fileName: {
     color: theme.palette.primary.contrastText,
@@ -136,28 +142,28 @@ const styles = (theme) => ({
     fontWeight: 600,
   },
   pathPaper: {
-    position: 'absolute',
+    position: "absolute",
     paddingLeft: 18,
     left: 100,
     bottom: 0,
-    width: 'calc(100% - 118px)',
+    width: "calc(100% - 118px)",
     height: 32,
-    borderRadius: '0 0 2px 2px',
+    borderRadius: "0 0 2px 2px",
     backgroundColor: theme.palette.primary.light,
   },
   pathText: {
     color: "white",
     fontWeight: 600,
-    position: 'absolute',
+    position: "absolute",
     left: 20,
-    top: '20%'
+    top: "20%",
   },
   path: {
     color: "white",
     fontWeight: 600,
-    position: 'absolute',
+    position: "absolute",
     left: 20,
-    top: '20%'
+    top: "20%",
   },
 });
 class MyDrive extends React.Component {
@@ -165,7 +171,7 @@ class MyDrive extends React.Component {
     showDialogOpen: false,
     selectedItem: {},
     loadingPreview: false,
-    previewFile: '',
+    previewFile: "",
   };
   recentItems = [
     {
@@ -178,14 +184,11 @@ class MyDrive extends React.Component {
     { action: "updated", file: "ryker-allergy-info.txt", group: "Pet info" },
   ];
 
-
-componentDidMount = async () => {
-
-  const { drive: { drive_data : { _id } }, initPage } = this.props;
-  
- await initPage(_id)
-}
-
+  componentDidMount = async () => {
+    const { home_drive_id, initPage } = this.props;
+    console.log(home_drive_id);
+    await initPage(home_drive_id);
+  };
 
   getColor = (action) => {
     switch (action) {
@@ -202,97 +205,123 @@ componentDidMount = async () => {
 
   setSelectedFolder = (selectedItem) => {
     const { selectItem } = this.props;
-    selectItem(selectedItem)
-  }
+    selectItem(selectedItem);
+  };
 
   showDialogHandler = () => {
     const { showDialogOpen } = this.state;
-    this.setState({ showDialogOpen: !showDialogOpen })
-  }
+    this.setState({ showDialogOpen: !showDialogOpen });
+  };
 
-  renderFolderActions = () => {  
-    const { classes, drive : { drive_data, selectedItem }, createFile } = this.props;
+  renderFolderActions = () => {
+    const {
+      classes,
+      drive: { drive_data, selectedItem },
+      createFile,
+    } = this.props;
     const { path, location, name } = selectedItem;
     const { _id: drive_id } = drive_data;
 
-
-
-
     return (
       <Typography>
-        <BaseButton onClick={() => createFile(drive_id, selectedItem._id, {
-        path, location, name: 'Brandons File'
-        })} className={classes.formBtn}> Upload to /{name} </BaseButton>
+        <BaseButton
+          onClick={() =>
+            createFile(drive_id, selectedItem._id, {
+              path,
+              location,
+              name: "Brandons File",
+            })
+          }
+          className={classes.formBtn}
+        >
+          {" "}
+          Upload to /{name}{" "}
+        </BaseButton>
         <BaseButton className={classes.formBtn}> Some other action </BaseButton>
       </Typography>
-
-    )
-  }
+    );
+  };
 
   getRenderedPath = (selectedItem) => {
-  const parsedArr = !isEmpty(selectedItem) ? selectedItem.path.split('/') : [];
+    const parsedArr = !isEmpty(selectedItem)
+      ? selectedItem.path.split("/")
+      : [];
     const [, ...path] = parsedArr;
-    return path.join('/');
-  }
+    return path.join("/");
+  };
 
   renderFileActions = () => {
-    const { classes, drive: { selectedItem } } = this.props;
+    const {
+      classes,
+      drive: { selectedItem },
+    } = this.props;
 
     return (
-      <BaseButton onClick={this.handleLoadPreview}
-        className={classes.formBtn}>
+      <BaseButton onClick={this.handleLoadPreview} className={classes.formBtn}>
         View {truncateString(selectedItem.name, 18)}
-      </BaseButton>)
-  }
+      </BaseButton>
+    );
+  };
 
   renderNothingSelected = (drive_data) => {
     const { path, location, _id: drive_id } = drive_data;
     const { classes, createFolder } = this.props;
     // console.log(drive_id, folder_path)
-    return (<div>
-      <Typography className={classes.title}>Nothing selected</Typography>
-      <BaseButton className={classes.formBtn}
-        onClick={() => createFolder(drive_id, {
-          path: path,
-          location: location,
-          name: 'Brandon-Folder'
-        })}>
-        Create Folder
+    return (
+      <div>
+        <Typography className={classes.title}>Nothing selected</Typography>
+        <BaseButton
+          className={classes.formBtn}
+          onClick={() =>
+            createFolder(drive_id, {
+              path: path,
+              location: location,
+              name: "Brandon-Folder",
+            })
+          }
+        >
+          Create Folder
         </BaseButton>
-    </div>)
-  }
+      </div>
+    );
+  };
   determineActions = () => {
-    const { drive : { selectedItem} } = this.props;
-    const isFolder = selectedItem.type === 'folder';
-    return isFolder ? this.renderFolderActions() : this.renderFileActions()
-
-
-  }
+    const {
+      drive: { selectedItem },
+    } = this.props;
+    const isFolder = selectedItem.type === "folder";
+    return isFolder ? this.renderFolderActions() : this.renderFileActions();
+  };
 
   // determinePreviewContent = () => {
   //   const { classes } = this.props;
   //   const { previewFile } = this.state;
-  //   return previewFile ? <textarea style={{ fontSize: 20, marginTop: 32, height: '100%', width: '100%'}} rows="10" cols="50" 
+  //   return previewFile ? <textarea style={{ fontSize: 20, marginTop: 32, height: '100%', width: '100%'}} rows="10" cols="50"
   //   onChange={(event) => this.setState({ previewFile: event.target.value})} value={previewFile.toString()}></textarea>:
   //   <Typography className={classes.subtitle}>Nothing selected</Typography>
   // }
 
-
   determinePreviewContent = () => {
-    const { classes, } = this.props;
+    const { classes } = this.props;
     const { previewFile } = this.state;
-    return previewFile ? <div dangerouslySetInnerHTML={{ __html: previewFile }}></div> :
+    return previewFile ? (
+      <div dangerouslySetInnerHTML={{ __html: previewFile }}></div>
+    ) : (
       <Typography className={classes.subtitle}>Nothing selected</Typography>
-  }
-
+    );
+  };
 
   render() {
-  
     const { loadingPreview } = this.state;
-    const { classes, drive, rootLoading, } = this.props;
+    const { classes, drive, rootLoading } = this.props;
 
-    const { drive_data: { folders = [] }, drive_data,  loading, selectedItem } = drive;
-  
+    const {
+      drive_data: { folders = [] },
+      drive_data,
+      loading,
+      selectedItem,
+    } = drive;
+
     return (
       <Fade in={!rootLoading} timeout={500}>
         <Grid container>
@@ -309,7 +338,7 @@ componentDidMount = async () => {
                     <CardContent style={{}}>
                       <Typography className={classes.cardTitle}>
                         Recent activity
-                    </Typography>
+                      </Typography>
                       {this.recentItems.map((item) => (
                         <Grid container>
                           <Grid item xs={1}>
@@ -343,7 +372,7 @@ componentDidMount = async () => {
                                       style={{ color: "white", fontSize: 7 }}
                                     >
                                       file
-                                  </Typography>
+                                    </Typography>
 
                                     {item.file}
                                   </Typography>
@@ -363,7 +392,7 @@ componentDidMount = async () => {
                                       style={{ color: "white", fontSize: 7 }}
                                     >
                                       group
-                                  </Typography>
+                                    </Typography>
 
                                     {item.group}
                                   </Typography>
@@ -386,7 +415,7 @@ componentDidMount = async () => {
                     <CardContent style={{}}>
                       <Typography className={classes.cardTitle}>
                         Preview
-                    </Typography>
+                      </Typography>
                       {/* TODO loadingPreview to state.page_data.drive.loading.preview */}
                       {loadingPreview ? (
                         <div>
@@ -397,14 +426,16 @@ componentDidMount = async () => {
                             size="lg"
                             spin
                           />
-                          <Typography className={classes.title}>Loading preview for {selectedItem.name}</Typography>
-                        </div>) :
-                        <div style={{ minHeight: 180 }}>
-                          {this.determinePreviewContent() }
+                          <Typography className={classes.title}>
+                            Loading preview for {selectedItem.name}
+                          </Typography>
                         </div>
-                      }
+                      ) : (
+                        <div style={{ minHeight: 180 }}>
+                          {this.determinePreviewContent()}
+                        </div>
+                      )}
                     </CardContent>
-
                   </Card>
                 </Slide>
               </Grid>
@@ -432,47 +463,39 @@ componentDidMount = async () => {
                             spin
                           />
                         ) : (
-                            <FolderView handleClick={this.setSelectedFolder} selectedItem={selectedItem} folders={folders} />
-                          )}
-
+                          <FolderView
+                            handleClick={this.setSelectedFolder}
+                            selectedItem={selectedItem}
+                            folders={folders}
+                          />
+                        )}
                       </Grid>
                       <Grid item xs={1}>
-                        <Divider orientation="vertical" style={{ height: 200 }} />
+                        <Divider
+                          orientation="vertical"
+                          style={{ height: 200 }}
+                        />
                       </Grid>
                       <Grid item xs={4}>
-
-
-                        {isEmpty(selectedItem) ? this.renderNothingSelected(drive_data) : this.determineActions()}
-
+                        {isEmpty(selectedItem)
+                          ? this.renderNothingSelected(drive_data)
+                          : this.determineActions()}
                       </Grid>
                     </Grid>
                     <Paper className={classes.pathWrapper}>
                       <Paper className={classes.pathPaper}>
-
-                        <Typography
-
-                          className={classes.pathText}
-                        >
-
+                        <Typography className={classes.pathText}>
                           {this.getRenderedPath(selectedItem)}
                         </Typography>
                       </Paper>
-                      <Typography
-
-                        className={classes.path}
-                      >
-
+                      <Typography className={classes.path}>
                         MyDrive:/
-                    </Typography>
+                      </Typography>
                     </Paper>
                   </Paper>
                   {/* TODO: parsers for drive._id */}
-
-
                 </CardContent>
-
               </Card>
-
             </Grid>
           </Slide>
         </Grid>
@@ -481,18 +504,18 @@ componentDidMount = async () => {
   }
 }
 const mapStateToProps = (state) => ({
-    drive: state.page_data.drive
+  drive: state.page_data.drive,
+  home_drive_id: state.ui.selectedHome.drive_id,
 });
 
 const mapDispatchToProps = {
-    selectItem: selectDriveItemWorkflow,
-    createFile: createFileWorkflow,
-    createFolder: createFolderWorkflow,
-    initPage: initDrivePageWorkflow,
+  selectItem: selectDriveItemWorkflow,
+  createFile: createFileWorkflow,
+  createFolder: createFolderWorkflow,
+  initPage: initDrivePageWorkflow,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(MyDrive));
-
-
-
-
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withStyles(styles)(MyDrive));

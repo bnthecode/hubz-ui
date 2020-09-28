@@ -19,4 +19,3 @@ export const getHome = async (homeId) => {
   } = await http.get(`/api/homes/${homeId}`);
   return { home };
 };
-

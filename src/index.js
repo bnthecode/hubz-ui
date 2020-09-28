@@ -12,10 +12,8 @@ import * as serviceWorker from "./serviceWorker";
 import { PersistGate } from "redux-persist/integration/react";
 import { MuiThemeProvider } from "@material-ui/core/styles";
 import theme from "./styles/mui-theme";
-import history from './services/history'
+import history from "./services/history";
 import { ConnectedRouter, routerMiddleware } from "connected-react-router";
-
-
 
 const persistConfig = {
   key: "node-plaid",
@@ -27,23 +25,22 @@ const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const persistedReducer = persistReducer(persistConfig, rootReducer(history));
 export const store = createStore(
   persistedReducer,
-  composeEnhancer(applyMiddleware(thunk),
-  applyMiddleware(routerMiddleware(history))),
-  
+  composeEnhancer(
+    applyMiddleware(thunk),
+    applyMiddleware(routerMiddleware(history))
+  )
 );
 export const persistor = persistStore(store);
 // const { ui : { uiTheme } } = store.getState();
 const rootElement = document.getElementById("root");
 ReactDOM.render(
   <Provider store={store}>
-        <ConnectedRouter history={history}>
-    <PersistGate loading={null} persistor={persistor}>
-
-      <MuiThemeProvider theme={theme}>
-        <App />
-      </MuiThemeProvider>
-
-    </PersistGate>
+    <ConnectedRouter history={history}>
+      <PersistGate loading={null} persistor={persistor}>
+        <MuiThemeProvider theme={theme}>
+          <App />
+        </MuiThemeProvider>
+      </PersistGate>
     </ConnectedRouter>
   </Provider>,
   rootElement

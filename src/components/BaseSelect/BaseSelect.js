@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
       color: "white",
     },
     "& .MuiInputLabel-root": {
-      color: "white",
+      color: theme.palette.primary.contrastText,
     },
     "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
       borderColor: "white",
@@ -40,18 +40,18 @@ const BaseSelect = ({ children, displayTop, spacing, className, ...props }) => {
           MenuListProps: {
             style: { padding: 0 },
           },
-          classes: {
-            root: classes.select,
-          },
           anchorOrigin: {
-            vertical: displayTop ? 'top' : 'bottom',
+            vertical: displayTop ? "top" : "bottom",
             horizontal: "left",
           },
           getContentAnchorEl: null,
         },
       }}
+      classes={{
+        disabled: classes.disabled,
+      }}
       style={{
-        marginBottom: spacing || 0
+        marginBottom: spacing || 0,
       }}
       margin="dense"
       className={clsx([className, classes.root])}
@@ -60,7 +60,6 @@ const BaseSelect = ({ children, displayTop, spacing, className, ...props }) => {
       {...props}
     >
       {children}
-
     </TextField>
   );
 };

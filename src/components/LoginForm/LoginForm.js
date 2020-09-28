@@ -60,11 +60,12 @@ const LoginForm = ({ signUp, login, history, loggingIn }) => {
   ];
 
   const handleLogin = async () => {
-    const user = loggingIn ? await login(userFormData) :
-      await signUp(userFormData);
-    const path = loggingIn ? 'dashboard' : 'new/create-home'
-    history.push(`/${user.username}/${path}`)
-  }
+    const user = loggingIn
+      ? await login(userFormData)
+      : await signUp(userFormData);
+    const path = loggingIn ? "dashboard" : "create-home/home-info";
+    history.push(`/${user.username}/${path}`);
+  };
 
   return (
     <div>
@@ -79,18 +80,18 @@ const LoginForm = ({ signUp, login, history, loggingIn }) => {
             {formFields.map((field, i) => (
               <Grid item xs={12}>
                 {field.for === "all" ||
-                  (field.for === "signup" && !loggingIn) ? (
-                    <BaseTextField
-                      spacing={16}
-                      type={field.type || ""}
-                      autoFocus={field.focused}
-                      onChange={(e) => handleFormField(e, field.key, i)}
-                      id={`login-${field.label}`}
-                      label={field.label}
-                    />
-                  ) : (
-                    ""
-                  )}
+                (field.for === "signup" && !loggingIn) ? (
+                  <BaseTextField
+                    spacing={16}
+                    type={field.type || ""}
+                    autoFocus={field.focused}
+                    onChange={(e) => handleFormField(e, field.key, i)}
+                    id={`login-${field.label}`}
+                    label={field.label}
+                  />
+                ) : (
+                  ""
+                )}
               </Grid>
             ))}
           </Grid>
@@ -106,16 +107,13 @@ const LoginForm = ({ signUp, login, history, loggingIn }) => {
             <Link to="/terms-of-service">Terms of Service</Link>
           </Typography>
         ) : (
-            <Typography className={classes.helperText}>
-              Welcome back
-              <br />
-            </Typography>
-          )}
+          <Typography className={classes.helperText}>
+            Welcome back
+            <br />
+          </Typography>
+        )}
         <br /> <br />
-        <BaseButton
-          onClick={handleLogin}
-          className={classes.loginButton}
-        >
+        <BaseButton onClick={handleLogin} className={classes.loginButton}>
           {loggingIn ? "Log in" : "Sign up"}
         </BaseButton>
       </Grid>

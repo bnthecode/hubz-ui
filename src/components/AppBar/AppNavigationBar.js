@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
   navButton: {
     backgroundColor: "transparent",
     fontWeight: 600,
-    border: 'none'
+    border: "none",
   },
   navLink: {
     textDecoration: "none",

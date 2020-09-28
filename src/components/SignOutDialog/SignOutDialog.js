@@ -4,19 +4,27 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import { makeStyles } from "@material-ui/core/styles";
-import { Grid, Typography } from "@material-ui/core";
+import { Divider, Typography } from "@material-ui/core";
 import BaseButton from "../BaseButton/BaseButton";
 const useStyles = makeStyles((theme) => ({
   backdrop: {
     backgroundColor: "rgba(50, 50, 50, 0.5)",
   },
   paper: {
-    backgroundColor: theme.palette.secondary.light,
+    backgroundColor: theme.palette.primary.dark,
+    border: "1px solid white",
     color: "white",
   },
-  signOutBtn: {
-    width: "100%",
-    color: theme.palette.primary.contrastText,
+  btnContainer: {
+    marginTop: 24,
+    display: "flex",
+    justifyContent: "space-between",
+  },
+  btnLeft: {
+    float: "left",
+  },
+  btnRight: {
+    float: "right",
   },
   helperText: {
     color: theme.palette.secondary.main,
@@ -49,38 +57,29 @@ const SignOutDialog = ({
       <DialogTitle id="alert-dialog-slide-title">
         {name}, are you sure you want to sign out?
       </DialogTitle>
+      <Divider />
       <DialogContent>
         <DialogContentText id="alert-dialog-slide-description">
           <Typography className={classes.helperText}>
-            {" "}
-            This will remove any cookies you have persisted using this site.{" "}
-          </Typography>
-          <Typography className={classes.helperText}>
-            {" "}
-            Once you have signed out, you may lose progress.{" "}
-          </Typography>
-          <Typography className={classes.helperText}>
-            {" "}
-            Are you sure you want to continue?{" "}
+            This will remove any cookies you have persisted using this site.
+            <br />
+            Once you have signed out, you may lose progress.
+            <br />
+            Are you sure you want to continue?
           </Typography>
         </DialogContentText>
-        <Grid container>
-          <Grid item xs={4}>
-            <BaseButton
-              className={classes.signOutBtn}
-              onClick={() => showSignOutDialog(false)}
-            >
+        <div className={classes.btnContainer}>
+          <BaseButton
+            className={classes.btnLeft}
+            onClick={() => showSignOutDialog(false)}
+          >
+            No, take me back
+          </BaseButton>
 
-              No, take me back
-            </BaseButton>
-          </Grid>
-          <Grid item xs={4} />
-          <Grid item xs={4}>
-            <BaseButton className={classes.signOutBtn} onClick={signOut}>
-              Yes, sign me out
-            </BaseButton>
-          </Grid>
-        </Grid>
+          <BaseButton className={classes.btnRight} onClick={signOut}>
+            Yes, sign me out
+          </BaseButton>
+        </div>
       </DialogContent>
     </Dialog>
   );

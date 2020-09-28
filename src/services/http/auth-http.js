@@ -4,7 +4,7 @@ export const createUser = async (createdUser) => {
   const {
     data: { user },
   } = await http.post("/api/users", { user: createdUser });
-  return  user;
+  return user;
 };
 
 export const getUser = async ({ username, password }) => {

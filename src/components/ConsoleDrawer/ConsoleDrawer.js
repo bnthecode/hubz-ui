@@ -63,7 +63,7 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: theme.palette.primary.dark,
     },
     width: 10,
-    border: 'none',
+    border: "none",
     backgroundColor: theme.palette.primary.dark,
     position: "fixed",
     bottom: 16,
@@ -139,9 +139,7 @@ const DashboardDrawer = ({
             onClick={() => setDrawerOpen(!drawerOpen)}
             className={classes.menuButtonIcon}
           >
-            <FontAwesomeIcon
-              icon={drawerOpen ? faArrowLeft : faArrowRight}
-            />
+            <FontAwesomeIcon icon={drawerOpen ? faArrowLeft : faArrowRight} />
           </BaseButton>
         </div>
       </Drawer>

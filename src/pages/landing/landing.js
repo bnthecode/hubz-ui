@@ -27,21 +27,21 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "#fafbfc",
   },
   activeBtn: {
-    '&:hover': {
-      backgroundColor: theme.palette.secondary.main
+    "&:hover": {
+      backgroundColor: theme.palette.secondary.main,
     },
     color: "white",
-    backgroundColor: theme.palette.secondary.main
+    backgroundColor: theme.palette.secondary.main,
   },
   inactiveBtn: {
-    '&:hover': {
-      backgroundColor: theme.palette.secondary.light
+    "&:hover": {
+      backgroundColor: theme.palette.secondary.light,
     },
     color: "white",
-    backgroundColor: theme.palette.secondary.light
+    backgroundColor: theme.palette.secondary.light,
   },
   toggleButton: {
-    border: 'none',
+    border: "none",
     width: "50%",
     borderRadius: "0px",
   },
@@ -52,8 +52,8 @@ const useStyles = makeStyles((theme) => ({
     marginTop: "2%",
   },
   loginCard: {
-    backgroundColor: theme.palette.secondary.main
-  }
+    backgroundColor: theme.palette.secondary.main,
+  },
 }));
 
 const Landing = ({ login, user, signUp }) => {
@@ -81,15 +81,19 @@ const Landing = ({ login, user, signUp }) => {
                       variant="body1"
                     ></Typography>
                     <BaseButton
-                      className={clsx([classes.toggleButton,
-                      loggingIn ? classes.activeBtn : classes.inactiveBtn])}
+                      className={clsx([
+                        classes.toggleButton,
+                        loggingIn ? classes.activeBtn : classes.inactiveBtn,
+                      ])}
                       onClick={() => setLoggingIn(true)}
                     >
                       login
                     </BaseButton>
                     <BaseButton
-                      className={clsx([classes.toggleButton,
-                      !loggingIn ? classes.activeBtn : classes.inactiveBtn])}
+                      className={clsx([
+                        classes.toggleButton,
+                        !loggingIn ? classes.activeBtn : classes.inactiveBtn,
+                      ])}
                       onClick={() => setLoggingIn(false)}
                     >
                       sign up
@@ -104,8 +108,8 @@ const Landing = ({ login, user, signUp }) => {
                 </Zoom>
               </Grid>
             ) : (
-                ""
-              )}
+              ""
+            )}
             <Grid item xs={1} />
           </Grid>
         </Grid>
@@ -113,6 +117,5 @@ const Landing = ({ login, user, signUp }) => {
     </div>
   );
 };
-
 
 export default Landing;

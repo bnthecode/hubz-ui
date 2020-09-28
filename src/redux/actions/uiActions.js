@@ -1,4 +1,4 @@
-export const clearNotification = () => dispatch =>
+export const clearNotification = () => (dispatch) =>
   dispatch({ type: "CLEAR_NOTIFICATION" });
 
 export const setNotification = ({ message, type }) => ({
@@ -9,7 +9,7 @@ export const setNotification = ({ message, type }) => ({
   },
 });
 
-export const setHomes= (value) => (dispatch) => {
+export const setHomes = (value) => (dispatch) => {
   dispatch({ type: "SET_HOMES", payload: value });
 };
 

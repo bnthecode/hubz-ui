@@ -24,10 +24,10 @@ body {
   bottom: 50%;
   width: 170px;
   height: 170px;
-  animation: paragato .75s infinite alternate;
-  -webkit-animation: paragato .75s infinite alternate;
-    -webkit-animation-timing-function: ease-in-out; /* Chrome, Safari, Opera */
-    animation-timing-function: ease-in-out;
+  animation: paragato 0.75s infinite alternate;
+  -webkit-animation: paragato 0.75s infinite alternate;
+  -webkit-animation-timing-function: ease-in-out; /* Chrome, Safari, Opera */
+  animation-timing-function: ease-in-out;
 }
 
 @keyframes paragato {
@@ -52,13 +52,24 @@ body {
 }
 
 @keyframes mymove {
-  
-   12.5% {left: 150px;}
-    25% {left: 250px;}
-    37.5% {left: 550px;}
-    50% {top: 50px;}
-    62.5% {top: 50px;}
-    75% {top: 50px;}
+  12.5% {
+    left: 150px;
+  }
+  25% {
+    left: 250px;
+  }
+  37.5% {
+    left: 550px;
+  }
+  50% {
+    top: 50px;
+  }
+  62.5% {
+    top: 50px;
+  }
+  75% {
+    top: 50px;
+  }
 }
 
 #plaid-link-button {
@@ -87,7 +98,6 @@ body {
    color: #444;
   } */
 }
-
 
 .zoomIn {
   animation-name: zoomIn;
