@@ -1,4 +1,4 @@
-# Hubz UI
+# hubz-ui
 
 ## Usage
 
