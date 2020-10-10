@@ -1,9 +1,9 @@
-import { setAccounts } from "../redux/actions/accountActions";
+import { setAccounts } from "../../redux/actions/pages/accountActions";
 import {
   createAccount,
   getAccountAccessToken,
   getAccountsByType,
-} from "../services/http/accounts-http";
+} from "../../services/http/accounts-http";
 
 export const createAccountWorkflow = (public_token, metadata, homeId) => async (
   dispatch

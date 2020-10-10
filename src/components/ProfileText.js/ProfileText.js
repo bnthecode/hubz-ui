@@ -1,23 +1,23 @@
-import React from "react";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import BaseButton from "../BaseButton/BaseButton";
 import { Fade, Typography } from "@material-ui/core";
-const AccountSetup = ({ setUpHandler }) => {
+import React from "react";
+import BaseButton from "../BaseButton/BaseButton";
+
+const ProfileText = ({ setUpHandler }) => {
   return (
     <Fade in timeout={1000}>
       <div style={{ height: 300, position: "relative" }}>
         <Typography style={{ color: "white", fontSize: 24 }}>
-          Setting up your account
+          Setting up your profile
         </Typography>
         <br />
 
-        <Typography>- create accounts for this home</Typography>
+        <Typography>- roles for this home</Typography>
         <br />
-        <Typography>
-          - decide to share account information with other users
-        </Typography>
-
+        <Typography>- account profile picture</Typography>
+        <br />
+        <Typography>- phone number</Typography>
         <br />
         <BaseButton
           style={{
@@ -37,4 +37,4 @@ const AccountSetup = ({ setUpHandler }) => {
   );
 };
 
-export default AccountSetup;
+export default ProfileText;

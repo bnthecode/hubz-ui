@@ -34,16 +34,21 @@ import {
   faFileInvoice,
   faHome,
   faSpinner,
+  faMoneyBill,
 } from "@fortawesome/free-solid-svg-icons";
 import CreateHome from "../create-home/create-home";
 import BaseSelect from "../../components/BaseSelect/BaseSelect";
 import {
-  createHomeWorkflow,
+  initConsolePageWorkflow,
+  createHomeUserWorkflow,
   selectHomeWorkflow,
-} from "../../workflows/home-workflow";
+  createHomeWorkflow,
+} from "../../workflows/pages/console-workflow";
+
 import consoleStyles from "./console-styles.js";
-import { createAccountWorkflow } from "../../workflows/account-workflow";
+import { createAccountWorkflow } from "../../workflows/pages/account-workflow";
 import { signOutWorkflow } from "../../workflows/auth-workflows";
+import Bills from "../bills/bills";
 
 class Console extends React.Component {
   state = {
@@ -54,9 +59,14 @@ class Console extends React.Component {
   };
 
   componentDidMount = async () => {
+    const {
+      initConsole,
+      auth: { user },
+    } = this.props;
     this.setState({
       selectedNavItem: this.getNavItem(),
     });
+    await initConsole(user);
   };
 
   updateLoading = (key, value) =>
@@ -84,6 +94,7 @@ class Console extends React.Component {
     { name: "My-Drive", icon: faNetworkWired, path: "my-drive", key: "3" },
     { name: "Privileges", icon: faEdit, path: "privileges", key: "4" },
     { name: "Calendar", icon: faCalendar, path: "calendar", key: "5" },
+    { name: "Bills", icon: faMoneyBill, path: "bills", key: "6" },
   ];
 
   navigateItem = (path) => {
@@ -108,10 +119,19 @@ class Console extends React.Component {
 
   render() {
     const { selectedNavItem, signOutDialogOpen, drawerOpen } = this.state;
-    const { ui, auth, history, signOut, match, classes } = this.props;
     const {
-      homes,
-      selectedHome,
+      console,
+      auth,
+      ui,
+      history,
+      signOut,
+      createHome,
+      createHomeUser,
+      match,
+      classes,
+    } = this.props;
+    const { homes, selectedHome, create_home_data } = console;
+    const {
       appLoading: { loading: rootLoading },
     } = ui;
     const { user } = auth;
@@ -225,7 +245,32 @@ class Console extends React.Component {
           <Switch>
             <Route
               path={`/${match.params.username}/create-home`}
-              render={(props) => <CreateHome {...props} />}
+              render={(props) => (
+                <CreateHome
+                  create_home_data={create_home_data}
+                  createHome={createHome}
+                  createHomeUser={createHomeUser}
+                  user={user}
+                  homes={homes}
+                  selectedHome={selectedHome}
+                  {...props}
+                />
+              )}
+            />
+            <Route
+              path={`/${match.params.username}/welcome/added-user`}
+              render={(props) => (
+                <div>
+                  <h2>
+                    Welcome, you have been added by{" "}
+                    {
+                      selectedHome.home_users.find(
+                        (n) => n._id === user.created_by
+                      ).first_name
+                    }
+                  </h2>
+                </div>
+              )}
             />
             <Route
               exact
@@ -249,12 +294,17 @@ class Console extends React.Component {
             <Route
               exact
               path={`/${match.params.username}/privileges`}
-              render={(props) => <Privileges {...props} />}
+              render={(props) => <Privileges rootLoading={rootLoading} {...props} />}
             />
             <Route
               exact
               path={`/${match.params.username}/calendar`}
-              render={(props) => <Calendar {...props} />}
+              render={(props) => <Calendar drawerOpen={drawerOpen} rootLoading={rootLoading} {...props} />}
+            />
+            <Route
+              exact
+              path={`/${match.params.username}/bills`}
+              render={(props) => <Bills rootLoading={rootLoading} {...props} />}
             />
           </Switch>
         </div>
@@ -271,15 +321,17 @@ class Console extends React.Component {
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
-  home: state.page_data.home,
+  ui: state.ui,
+  console: state.page_data.console,
   accounts: state.page_data.accounts,
   drive: state.page_data.drive,
-  ui: state.ui,
 });
 
 const mapDispatchToProps = {
-  createHome: createHomeWorkflow,
+  initConsole: initConsolePageWorkflow,
   selectHome: selectHomeWorkflow,
+  createHome: createHomeWorkflow,
+  createHomeUser: createHomeUserWorkflow,
   createAccount: createAccountWorkflow,
   signOut: signOutWorkflow,
 };

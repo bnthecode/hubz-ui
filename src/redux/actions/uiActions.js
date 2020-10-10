@@ -8,15 +8,3 @@ export const setNotification = ({ message, type }) => ({
     type,
   },
 });
-
-export const setHomes = (value) => (dispatch) => {
-  dispatch({ type: "SET_HOMES", payload: value });
-};
-
-export const setSelectedHome = (value) => (dispatch) => {
-  dispatch({ type: "SET_SELECTED_HOME", payload: value });
-};
-
-export const setAppLoading = (value) => (dispatch) => {
-  dispatch({ type: "SET_APP_LOADING", payload: value });
-};

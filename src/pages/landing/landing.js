@@ -28,17 +28,17 @@ const useStyles = makeStyles((theme) => ({
   },
   activeBtn: {
     "&:hover": {
-      backgroundColor: theme.palette.secondary.main,
+      backgroundColor: theme.palette.primary.main,
     },
     color: "white",
-    backgroundColor: theme.palette.secondary.main,
+    backgroundColor: theme.palette.primary.main,
   },
   inactiveBtn: {
     "&:hover": {
-      backgroundColor: theme.palette.secondary.light,
+      backgroundColor: theme.palette.primary.dark,
     },
     color: "white",
-    backgroundColor: theme.palette.secondary.light,
+    backgroundColor: theme.palette.primary.dark,
   },
   toggleButton: {
     border: "none",
@@ -52,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop: "2%",
   },
   loginCard: {
-    backgroundColor: theme.palette.secondary.main,
+    backgroundColor: theme.palette.primary.main,
   },
 }));
 
@@ -87,7 +87,7 @@ const Landing = ({ login, user, signUp }) => {
                       ])}
                       onClick={() => setLoggingIn(true)}
                     >
-                      login
+                      Login
                     </BaseButton>
                     <BaseButton
                       className={clsx([
@@ -96,7 +96,7 @@ const Landing = ({ login, user, signUp }) => {
                       ])}
                       onClick={() => setLoggingIn(false)}
                     >
-                      sign up
+                      Sign up
                     </BaseButton>
                     <br />
                     <LoginForm

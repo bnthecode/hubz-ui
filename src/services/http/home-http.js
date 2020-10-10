@@ -19,3 +19,10 @@ export const getHome = async (homeId) => {
   } = await http.get(`/api/homes/${homeId}`);
   return { home };
 };
+
+export const addHomeUser = async (homeId, user) => {
+  const {
+    data: { home, temp_pw },
+  } = await http.post(`/api/homes/${homeId}/add-user`, user);
+  return { home, temp_pw };
+};

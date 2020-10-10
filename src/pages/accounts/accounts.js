@@ -5,8 +5,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Typography, withStyles, Grid, Slide, Paper } from "@material-ui/core";
 import clsx from "clsx";
 import EmptyPage from "../../components/EmptyPage/EmptyPage";
-import { createAccountWorkflow } from "../../workflows/account-workflow";
+import { createAccountWorkflow } from "../../workflows/pages/account-workflow";
 import { connect } from "react-redux";
+import BottomPanel from "../../components/BottomPanel/BottomPanel";
 
 const styles = (theme) => ({
   loader: {
@@ -93,13 +94,28 @@ class Accounts extends React.Component {
     const { classes, loading, createAccount } = this.props;
     const plaidLink = {
       cursor: "pointer",
-      fontSize: 12,
-
-      width: 160,
-      height: 40,
-      backgroundColor: "#455A64",
-      border: `1px solid white`,
+      border: 'none',
+      width: '100%',
+      backgroundColor: "transparent",
     };
+
+    const panelItems = [
+      { content: <PlaidLink
+        style={{ ...plaidLink }}
+        clientName="Hubz"
+        env="development"
+        product={["transactions", "liabilities"]}
+        publicKey="681829f372caa5ed8ceb64044a7fed"
+        onExit={() => {}}
+        onSuccess={createAccount}
+      >
+        <Typography className={classes.btnText}>
+    
+          Add an account
+        </Typography>
+      </PlaidLink>}
+
+    ]
 
     return (
       <div>
@@ -123,34 +139,9 @@ class Accounts extends React.Component {
             </Grid>
           </Grid>
         </Grid>
-        <Slide in timeout={1000} direction="up">
-          <Paper className={classes.bottomToolbar}>
-            <Grid container>
-              <Grid style={{ margin: "10px 0px 10px 20px", width: "12%" }} item>
-                <PlaidLink
-                  style={{ ...plaidLink }}
-                  clientName="Hubz"
-                  env="development"
-                  product={["transactions", "liabilities"]}
-                  publicKey="681829f372caa5ed8ceb64044a7fed"
-                  onExit={() => {}}
-                  onSuccess={createAccount}
-                >
-                  <Typography className={classes.btnText}>
-                    <FontAwesomeIcon
-                      className={classes.btnIcon}
-                      icon={faPlus}
-                    />
-                    Add an account
-                  </Typography>
-                </PlaidLink>
-              </Grid>
-              <Grid style={{ margin: "10px 0px 10px 0px", width: "12%" }} item>
-                Accounts not working yet
-              </Grid>
-            </Grid>
-          </Paper>
-        </Slide>
+       <BottomPanel panelItems={panelItems}/>
+              
+   
       </div>
     );
   }

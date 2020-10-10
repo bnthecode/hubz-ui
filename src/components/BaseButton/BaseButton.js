@@ -8,6 +8,7 @@ const useStyles = makeStyles((theme) => ({
     "&:disabled": {
       color: theme.palette.primary.dark,
     },
+    textTransform: "none",
     height: 40,
     width: 180,
     color: "white",

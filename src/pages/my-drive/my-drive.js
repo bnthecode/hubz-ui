@@ -24,7 +24,7 @@ import {
   initDrivePageWorkflow,
   createFolderWorkflow,
   selectDriveItemWorkflow,
-} from "../../workflows/drive-workflow";
+} from "../../workflows/pages/drive-workflow";
 import { connect } from "react-redux";
 import BaseButton from "../../components/BaseButton/BaseButton";
 
@@ -330,6 +330,7 @@ class MyDrive extends React.Component {
               <Grid item xs={12}>
                 <Slide in direction="left" timeout={1000}>
                   <Card
+                  elevation={24}
                     classes={{
                       root: clsx([classes.root]),
                     }}
@@ -407,6 +408,7 @@ class MyDrive extends React.Component {
                 </Slide>
                 <Slide in direction="left" timeout={1000}>
                   <Card
+                  elevation={24}
                     classes={{
                       root: clsx([classes.root]),
                     }}
@@ -445,6 +447,7 @@ class MyDrive extends React.Component {
           <Slide in direction="left" timeout={1000}>
             <Grid item xs={6}>
               <Card
+              elevation={24}
                 classes={{
                   root: clsx([classes.mainPanel]),
                 }}
@@ -505,7 +508,7 @@ class MyDrive extends React.Component {
 }
 const mapStateToProps = (state) => ({
   drive: state.page_data.drive,
-  home_drive_id: state.ui.selectedHome.drive_id,
+  home_drive_id: state.page_data.console.selectedHome.drive_id,
 });
 
 const mapDispatchToProps = {

@@ -57,17 +57,17 @@ const Notifications = ({
   const Zoom = cssTransition({
     enter: "zoomIn",
     exit: "zoomOut",
-    duration: 2000,
+    duration: 5000,
     appendPosition: false,
     collapse: true,
-    collapseDuration: 300,
+    collapseDuration: 8000,
   });
 
   if (message && type === "error") {
     toast(<Msg />, {
       className: classes.toast,
       transition: Zoom,
-      autoClose: 400,
+      autoClose: 5000,
       position: "bottom-right",
       onClose: resetNotification,
 

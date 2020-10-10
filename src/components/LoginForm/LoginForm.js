@@ -1,9 +1,22 @@
 import React from "react";
-import { Grid, Typography } from "@material-ui/core";
+import {
+  Fade,
+  FormControl,
+  FormControlLabel,
+  FormLabel,
+  Grid,
+  Grow,
+  Radio,
+  RadioGroup,
+  Typography,
+} from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { Link, withRouter } from "react-router-dom";
 import BaseButton from "../BaseButton/BaseButton";
 import BaseTextField from "../BaseTextField/BaseTextField";
+import { has } from "lodash";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCheck } from "@fortawesome/free-solid-svg-icons";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -11,10 +24,14 @@ const useStyles = makeStyles((theme) => ({
       margin: theme.spacing(1),
     },
   },
+  link: {
+    textDecoration: "none",
+    color: theme.palette.primary.contrastText,
+  },
   loginButton: {
     color: "white",
     "&:hover": {
-      backgroundColor: theme.palette.primary.contrastText,
+      backgroundColor: theme.palette.primary.dark,
     },
     width: "100%",
     borderRadius: 12,
@@ -27,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
 
   formBottom: {
     padding: 12,
-    backgroundColor: theme.palette.primary.main,
+    backgroundColor: theme.palette.primary.dark,
   },
   formElement: {
     transition: theme.transitions.create("all", {
@@ -39,6 +56,8 @@ const useStyles = makeStyles((theme) => ({
 const LoginForm = ({ signUp, login, history, loggingIn }) => {
   const classes = useStyles();
   const [userFormData, setUserFormData] = React.useState({});
+  const [hasKey, setHasKey] = React.useState(false);
+
   const handleFormField = (event, key, i) => {
     const {
       target: { value },
@@ -59,11 +78,15 @@ const LoginForm = ({ signUp, login, history, loggingIn }) => {
     { label: "Password", type: "password", for: "all", key: "password" },
   ];
 
+  const determinePath = (user) => {
+    return user.created_by ? "welcome/added-user" : "create-home/home-info";
+  };
+
   const handleLogin = async () => {
     const user = loggingIn
       ? await login(userFormData)
       : await signUp(userFormData);
-    const path = loggingIn ? "dashboard" : "create-home/home-info";
+    const path = loggingIn ? "dashboard" : determinePath(user);
     history.push(`/${user.username}/${path}`);
   };
 
@@ -94,6 +117,35 @@ const LoginForm = ({ signUp, login, history, loggingIn }) => {
                 )}
               </Grid>
             ))}
+            {!loggingIn && (
+              <Grid container>
+                <Grid item xs={3}>
+                  <Typography>
+                    <BaseButton
+                      style={{ marginRight: 16, marginTop: 8, width: 4 }}
+                      onClick={() => setHasKey(!hasKey)}
+                    >
+                      {hasKey && <FontAwesomeIcon icon={faCheck} />}
+                    </BaseButton>
+                  </Typography>
+                </Grid>
+                <Grid item xs={9}>
+                  {!hasKey ? (
+                    <Typography style={{ marginTop: 16, color: "white" }}>
+                      I have been given a home access key
+                    </Typography>
+                  ) : (
+                    <Grow in timeout={1000}>
+                      <BaseTextField
+                        onChange={(e) => handleFormField(e, "access_key")}
+                        label="Home access key"
+                        placeholder="hubz_"
+                      ></BaseTextField>
+                    </Grow>
+                  )}
+                </Grid>
+              </Grid>
+            )}
           </Grid>
         </Grid>
       </Grid>
@@ -104,7 +156,10 @@ const LoginForm = ({ signUp, login, history, loggingIn }) => {
             characters.
             <br />
             By clicking "Sign up" you are agree to our{" "}
-            <Link to="/terms-of-service">Terms of Service</Link>
+            <Link className={classes.link} to="/terms-of-service">
+              {" "}
+              Terms of Service
+            </Link>
           </Typography>
         ) : (
           <Typography className={classes.helperText}>

@@ -19,10 +19,10 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import { green, red } from "@material-ui/core/colors";
-import ProfileSetup from "../ProfileSetup/ProfileSetup";
-import AccountSetup from "../AccountSetup/AccountSetup";
-import HomeDriveSetup from "../HomeDriveSetup/HomeDriveSetup";
-import UserSetup from "../UserSetup/UserSetup";
+import ProfileText from "../ProfileText.js/ProfileText";
+import AccountText from "../AccountText/AccountText";
+import HomeDriveText from "../HomeDriveText/HomeDriveText";
+import UserText from "../UserText/UserText";
 import BaseButton from "../BaseButton/BaseButton";
 
 const useStyles = makeStyles((theme) => ({
@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
   card: {
     backgroundColor: theme.palette.primary.main,
     padding: 10,
-    height: 600,
+    height: 800,
   },
   title: {
     fontFamily: "Roboto",
@@ -130,7 +130,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const CreateHomeCard = () => {
+const SuccessHomeCard = ({ history, user, next }) => {
   const classes = useStyles();
 
   const [selectedItem, setSelectedItem] = React.useState({ key: "profile" });
@@ -138,13 +138,23 @@ const CreateHomeCard = () => {
   const getItemText = () => {
     switch (selectedItem.key) {
       case "profile":
-        return <ProfileSetup setUpHandler={() => alert("profile")} />;
+        return (
+          <ProfileText
+            setUpHandler={() => history.push(`${next}/profile-setup`)}
+          />
+        );
       case "accounts":
-        return <AccountSetup setUpHandler={() => alert("accounts")} />;
+        return (
+          <AccountText
+            setUpHandler={() => history.push(`${next}/account-setup`)}
+          />
+        );
       case "home_drive":
-        return <HomeDriveSetup setUpHandler={() => alert("home drive")} />;
+        return <HomeDriveText setUpHandler={() => history.push(`/my-drive`)} />;
       case "home_users":
-        return <UserSetup setUpHandler={() => alert("users")} />;
+        return (
+          <UserText setUpHandler={() => history.push(`${next}/user-setup`)} />
+        );
       default:
         return "";
     }
@@ -227,6 +237,7 @@ const CreateHomeCard = () => {
             right: 10,
             bottom: 10,
           }}
+          onClick={() => history.push(`/${user.username}/dashboard`)}
         >
           Skip all
         </BaseButton>
@@ -236,4 +247,4 @@ const CreateHomeCard = () => {
   );
 };
 
-export default CreateHomeCard;
+export default SuccessHomeCard;

@@ -44,14 +44,15 @@ const BaseTextField = ({ className, spacing, ...props }) => {
           disabled: classes.disabled,
         },
       }}
+      style={{
+        marginBottom: spacing || 0,
+      }}
       InputProps={{
         classes: {
           disabled: classes.disabled,
         },
       }}
-      style={{
-        marginBottom: spacing || 0,
-      }}
+  
       className={clsx([className, classes.root])}
       margin="dense"
       id="outlined-basic"

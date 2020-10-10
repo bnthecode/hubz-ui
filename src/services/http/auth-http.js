@@ -13,3 +13,10 @@ export const getUser = async ({ username, password }) => {
   } = await http.put("/api/users", { username, password });
   return user;
 };
+
+export const getUserWithAccessKey = async (user) => {
+  const {
+    data: { user : newUser },
+  } = await http.put("/api/users/access_key", user);
+  return newUser;
+};

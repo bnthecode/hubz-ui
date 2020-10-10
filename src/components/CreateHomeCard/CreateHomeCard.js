@@ -81,10 +81,7 @@ const useStyles = makeStyles((theme) => ({
   formField: {
     width: 240,
   },
-  createHomeBtn: {
-    width: 200,
-    bottom: "calc(25% + 10px)",
-  },
+
   nextBtn: {
     marginTop: 8,
     width: 60,

@@ -2,20 +2,28 @@ import React from "react";
 import {
   AppBar,
   Dialog,
+  Divider,
+  Drawer,
+  Grid,
   IconButton,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Slide,
   Toolbar,
   Typography,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { Switch, Route } from "react-router";
 import CreateHomeCard from "../../components/CreateHomeCard/CreateHomeCard";
-import UpdateUserProfileCard from "../../components/UpdateUserProfileCard/UpdateUserProfileCard";
 import SuccessHomeCard from "../../components/SuccessHomeCard/SuccessHomeCard";
 import { connect } from "react-redux";
-import { createHomeWorkflow } from "../../workflows/home-workflow";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faHSquare } from "@fortawesome/free-solid-svg-icons";
 import { green } from "@material-ui/core/colors";
+import ProfileSetup from "../../components/ProfileSetup/ProfileSetup";
+import UserSetup from "../../components/UserSetup/UserSetup";
 const useStyles = makeStyles((theme) => ({
   dialog: {
     height: 600,
@@ -64,14 +72,37 @@ const determineHeader = (path) => {
       );
     case "home-update-profile":
       return "Create your profile";
+    case "profile-setup":
+      return "Update profile";
     default:
       return "";
   }
 };
 
-const CreateHome = ({ user, match, history, createHome, homes }) => {
+const HelperContent = ({ content }) => {
   const classes = useStyles();
+  return <Grid>{content}</Grid>;
+};
 
+const CreateHome = ({
+  user,
+  match,
+  selectedHome,
+  createHomeUser,
+  history,
+  createHome,
+  homes,
+  create_home_data,
+}) => {
+
+  const {
+    profile_setup,
+    create_home_success,
+    new_user_setup,
+  } = create_home_data;
+
+  const classes = useStyles();
+  const [content, setContent] = React.useState("");
   return (
     <div>
       <Dialog
@@ -120,6 +151,7 @@ const CreateHome = ({ user, match, history, createHome, homes }) => {
             render={(props) => (
               <SuccessHomeCard
                 {...props}
+                create_home_success={create_home_success}
                 user={user}
                 home={homes[0]}
                 next={match.url}
@@ -128,23 +160,31 @@ const CreateHome = ({ user, match, history, createHome, homes }) => {
           />
           <Route
             exact
-            path={`${match.path}/home-update-profile`}
+            path={`${match.path}/profile-setup`}
             render={(props) => (
-              <UpdateUserProfileCard {...props} user={user} next={match.url} />
+              <ProfileSetup profile_setup={profile_setup} user={user} next={match.url} {...props} />
+            )}
+          />
+          <Route
+            exact
+            path={`${match.path}/user-setup`}
+            render={(props) => (
+              <UserSetup
+                new_user_setup={new_user_setup}
+                setContent={setContent}
+                createHomeUser={createHomeUser}
+                selectedHome={selectedHome}
+                user={user}
+                next={match.url}
+                {...props}
+              />
             )}
           />
         </Switch>
       </Dialog>
+      <HelperContent content={content} />
     </div>
   );
 };
 
-const mapStateToProps = (state) => ({
-  user: state.auth.user,
-  homes: state.ui.homes,
-});
-const mapDispatchToProps = {
-  createHome: createHomeWorkflow,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(CreateHome);
+export default CreateHome;
